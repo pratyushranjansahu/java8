@@ -4,6 +4,7 @@ import data.Student;
 import data.StudentDataBase;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
@@ -76,6 +77,23 @@ public class StreamsGroupingByExample {
         System.out.println(studentMap1);
     }
 
+    private static void partitioningBy_1(){
+
+        Predicate<Student> gpaPredicate = student -> student.getGpa() >= 3.8;
+        Map<Boolean,List<Student>> studentList = StudentDataBase.getAllStudents()
+                .stream()
+                .collect(partitioningBy(gpaPredicate));
+        System.out.println(studentList);
+    }
+
+    private static void partitioningBy_2(){
+
+        Predicate<Student> gpaPredicate = student -> student.getGpa() >= 3.8;
+        Map<Boolean,Set<Student>> studentList = StudentDataBase.getAllStudents()
+                .stream()
+                .collect(partitioningBy(gpaPredicate,toSet()));
+        System.out.println(studentList);
+    }
     public static void main(String[] args) {
         System.out.println("Grouping By");
         groupingByGender();
@@ -93,5 +111,9 @@ public class StreamsGroupingByExample {
         calculateTopGPA();
         System.out.println("calculateLeastGPA()");
         calculateLeastGPA();
+        System.out.println("partitioningBy_1()");
+        partitioningBy_1();
+        System.out.println("partitioningBy_2()");
+        partitioningBy_2();
     }
 }
